@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "./Table";
 import Form from "./Form";
 import axios from "axios";
@@ -35,15 +35,20 @@ function MyApp() {
 
   function removeOneCharacter(index) {
     const updated = characters.filter((character, i) => {
-      return i !== index;
+      if(i===index){
+        axios.delete("http://localhost:5000/users/" + character.id);
+        return false;
+      }
+      return true;
     });
+
     setCharacters(updated);
   }
 
   function updateList(person) { 
     makePostCall(person).then( result => {
     if (result)
-       setCharacters([...characters, person] );
+       setCharacters([...characters, result.data] );
     });
  }
 
