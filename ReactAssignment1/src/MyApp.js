@@ -33,21 +33,24 @@ function MyApp() {
     });
   }, []);
 
-  function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
+  async function removeOneCharacter(index) {
+    let userID;
+    const updated =  characters.filter((character, i) => {
       if(i===index){
-        axios.delete("http://localhost:5000/users/" + character.id);
+        userID = character.id;
         return false;
       }
       return true;
     });
-
-    setCharacters(updated);
+    if(!userID) return;
+    let resp = await axios.delete("http://localhost:5000/users/" + userID);
+    if(resp.status === 204)
+      setCharacters(updated);
   }
 
   function updateList(person) { 
     makePostCall(person).then( result => {
-    if (result)
+    if (result && result.status === 201)
        setCharacters([...characters, result.data] );
     });
  }
