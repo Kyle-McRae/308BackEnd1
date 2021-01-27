@@ -37,7 +37,7 @@ function MyApp() {
     let userID;
     const updated =  characters.filter((character, i) => {
       if(i===index){
-        userID = character.id;
+        userID = character._id;
         return false;
       }
       return true;

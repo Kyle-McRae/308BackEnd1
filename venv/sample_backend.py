@@ -77,13 +77,11 @@ def get_user(id):
             return user
         else :
             return jsonify({"error": "User not found"}), 404
-    elif request.method == 'DELETE': ## still the old version. Turn it into the DB version
-        for user in users['users_list']:
-            if user['id'] == id:
-                users['users_list'].remove(user)
-                resp = jsonify(),204
-                return resp                
-            return jsonify({"error": "User not found"}), 404
+    elif request.method == 'DELETE': ## st ill the old version. Turn it into the DB version
+        user = User({"_id":id})
+        if user.remove():
+            return jsonify(),204             
+        return jsonify({"error": "User not found"}), 404
 
 # def find_users_by_name(name):
 #     subdict = {'users_list' : []}
